@@ -17,14 +17,12 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['Áo', 'Quần', 'Vớ', 'Phụ kiện'],
-    default: 'Áo'
+    default: ''
   },
   type: {
     type: String,
     required: true,
-    enum: ['Sọc', 'Ngắn', 'Dài', 'Khác'],
-    default: 'Ngắn'
+    default: ''
   },
   size: {
     type: String,
