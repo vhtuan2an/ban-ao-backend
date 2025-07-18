@@ -78,17 +78,17 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Đã tạo', 'Đã thanh toán', 'Đã giao', 'Đã hủy'],
+    // enum: ['Đã tạo', 'Đã thanh toán', 'Đã giao', 'Đã hủy'],
     default: 'Đã tạo'
   },
   paymentMethod: {
     type: String,
-    enum: ['Tiền mặt', 'Chuyển khoản', 'Thẻ', 'Khác'],
+    // enum: ['Tiền mặt', 'Chuyển khoản', 'Thẻ', 'Khác'],
     default: 'Tiền mặt'
   },
   paymentStatus: {
     type: String,
-    enum: ['Chưa thanh toán', 'Đã thanh toán', 'Thanh toán một phần'],
+    // enum: ['Chưa thanh toán', 'Đã thanh toán', 'Thanh toán một phần'],
     default: 'Chưa thanh toán'
   },
   notes: {

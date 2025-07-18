@@ -31,7 +31,7 @@ class OrderService {
 
   // Create new order
   async createOrder(orderData) {
-    const { customerId, items, paymentMethod, paymentStatus, notes } = orderData;
+    const { customerId, items, paymentMethod, paymentStatus, notes, status } = orderData;
 
     // Validate customer exists
     const customer = await Customer.findById(customerId);
@@ -75,6 +75,7 @@ class OrderService {
     const order = new Order({
       customer: customerId,
       items: processedItems,
+      status,
       totalAmount,
       paymentMethod: paymentMethod || 'Tiền mặt',
       paymentStatus: paymentStatus || 'Chưa thanh toán',
@@ -101,9 +102,9 @@ class OrderService {
     }
 
     // Prevent updating completed or cancelled orders
-    if (order.status === 'Đã giao' || order.status === 'Đã hủy') {
-      throw new Error('Cannot update completed or cancelled orders');
-    }
+    // if (order.status === 'Đã giao' || order.status === 'Đã hủy') {
+    //   throw new Error('Cannot update completed or cancelled orders');
+    // }
 
     // If updating items, handle stock changes
     if (updateData.items) {
