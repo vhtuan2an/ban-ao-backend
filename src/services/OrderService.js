@@ -44,7 +44,7 @@ class OrderService {
     const processedItems = [];
 
     for (const item of items) {
-      const { productId, quantity } = item;
+      const { productId, quantity, printName, printNumber, homeOrAway, adultOrKid } = item;
       
       // Check product availability
       await ProductService.checkProductAvailability(productId, quantity);
@@ -54,10 +54,16 @@ class OrderService {
       
       processedItems.push({
         product: productId,
-        teamName: product.teamName,
-        category: product.category,
-        size: product.size,
+        image: product.images && product.images.length > 0 ? product.images[0] : '',
         quantity: quantity,
+        teamName: product.teamName,
+        homeOrAway: homeOrAway || product.homeOrAway || 'Home',
+        season: product.season,
+        adultOrKid: adultOrKid || product.adultOrKid || 'Adult',
+        size: product.size,
+        printName: printName || '',
+        printNumber: printNumber || '',
+        supplier: product.supplier,
         price: product.price,
         subtotal: subtotal
       });

@@ -2,24 +2,55 @@ const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
   product: {
-    
-  },
-  teamName: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
     required: true
   },
-  category: {
-    type: String,
-    required: true
-  },
-  size: {
-    type: String,
-    required: true
+  image: {
+    type: String, // Lấy từ product.images[0] hoặc chỉ định cụ thể
+    default: ''
   },
   quantity: {
     type: Number,
     required: true,
     min: 1
+  },
+  teamName: {
+    type: String,
+    required: true // Lấy từ product.teamName
+  },
+  homeOrAway: {
+    type: String,
+    enum: ['Home', 'Away', 'Third'],
+    default: 'Home' // Có thể lấy từ product hoặc chỉ định khi tạo order
+  },
+  season: {
+    type: String,
+    default: '' // Lấy từ product.season
+  },
+  adultOrKid: {
+    type: String,
+    enum: ['Adult', 'Kid'],
+    default: 'Adult' // Có thể lấy từ product hoặc chỉ định khi tạo order
+  },
+  size: {
+    type: String,
+    required: true // Lấy từ product.size
+  },
+  printName: {
+    type: String,
+    trim: true,
+    default: '' // Người dùng nhập khi đặt hàng
+  },
+  printNumber: {
+    type: String,
+    trim: true,
+    default: '' // Người dùng nhập khi đặt hàng
+  },
+  supplier: {
+    type: String,
+    trim: true,
+    default: '' // Có thể lấy từ product hoặc chỉ định
   },
   price: {
     type: Number,

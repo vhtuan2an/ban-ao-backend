@@ -52,6 +52,21 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: ''
   },
+  homeOrAway: {
+    type: String,
+    enum: ['Home', 'Away', 'Third'],
+    default: 'Home'
+  },
+  adultOrKid: {
+    type: String,
+    enum: ['Adult', 'Kid'],
+    default: 'Adult'
+  },
+  supplier: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   description: {
     type: String,
     trim: true,
