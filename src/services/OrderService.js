@@ -7,7 +7,7 @@ class OrderService {
   // Get all orders with filtering
   async getAllOrders(filters) {
     // Simply get all orders without any filtering
-    const orders = await Order.find()
+    const orders = await Order.find({isDeleted: false})
       .populate('customer', 'name phone address')
       .populate('items.product', 'name teamName category size images')
       .sort({ orderDate: -1 });
@@ -19,7 +19,7 @@ class OrderService {
 
   // Get order by ID
   async getOrderById(id) {
-    const order = await Order.findById(id)
+    const order = await Order.findById(id, { isDeleted: false })
       .populate('customer', 'name phone address')
       .populate('items.product', 'name teamName category size images');
       
@@ -96,7 +96,7 @@ class OrderService {
 
   // Update order
   async updateOrder(id, updateData) {
-    const order = await Order.findById(id);
+    const order = await Order.findById(id , { isDeleted: false });
     if (!order) {
       throw new Error('Order not found');
     }
@@ -159,7 +159,7 @@ class OrderService {
 
   // Update order status
   async updateOrderStatus(id, status) {
-    const order = await Order.findById(id);
+    const order = await Order.findById(id, { isDeleted: false });
     if (!order) {
       throw new Error('Order not found');
     }
@@ -201,9 +201,9 @@ class OrderService {
     return await this.getOrderById(updatedOrder._id);
   }
 
-  // Delete order (soft delete by cancelling)
+  // Delete order (soft delete by setting isDeleted = true)
   async deleteOrder(id) {
-    const order = await Order.findById(id);
+    const order = await Order.findOne({ _id: id, isDeleted: false });
     if (!order) {
       throw new Error('Order not found');
     }
@@ -219,10 +219,13 @@ class OrderService {
       }
     }
 
-    // Update status to cancelled
-    await Order.findByIdAndUpdate(id, { status: 'Đã hủy' });
+    // Soft delete by setting isDeleted = true and status to cancelled
+    await Order.findByIdAndUpdate(id, { 
+      isDeleted: true,
+      status: 'Đã hủy'
+    });
 
-    return { message: 'Order cancelled successfully' };
+    return { message: 'Order deleted successfully' };
   }
 
   // Get order statistics

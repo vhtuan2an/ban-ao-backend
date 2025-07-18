@@ -100,14 +100,20 @@ class CustomerService {
     const Order = require('../models/OrderItem');
     const { page = 1, limit = 10 } = pagination;
     
-    const orders = await Order.find({ customer: customerId })
+    const orders = await Order.find({ 
+      customer: customerId,
+      isDeleted: false // Only get non-deleted orders
+    })
       .populate('customer', 'name phone')
       .populate('items.product', 'teamName category size')
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .sort({ orderDate: -1 });
 
-    const total = await Order.countDocuments({ customer: customerId });
+    const total = await Order.countDocuments({ 
+      customer: customerId,
+      isDeleted: false
+    });
 
     return {
       orders,

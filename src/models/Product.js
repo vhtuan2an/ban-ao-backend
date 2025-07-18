@@ -39,6 +39,11 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: ''
   },
+  importPrice: {
+    type: Number,
+    required: true,
+    min: 0
+  },
   price: {
     type: Number,
     required: true,
